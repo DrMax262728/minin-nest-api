@@ -2,14 +2,20 @@ import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 // modules
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      'mongodb+srv://max:38433716@cluster0.tiisd.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
-    ),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get('DB_PATH'),
+      }),
+      inject: [ConfigService],
+    }),
+    ConfigModule.forRoot(),
     ProductsModule,
   ],
   controllers: [AppController],
