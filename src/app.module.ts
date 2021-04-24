@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 // modules
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
+import { UserPostsModule } from './user-posts/user-posts.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ProductsModule } from './products/products.module';
     }),
     ConfigModule.forRoot(),
     ProductsModule,
+    UserPostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
